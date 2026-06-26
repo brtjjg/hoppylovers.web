@@ -1,0 +1,2586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hoppy Lovers – Share Good Vibes</title>
+    <style>
+        /* ===== RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --primary: #e84393;
+            --primary-dark: #c2185b;
+            --primary-light: #f06292;
+            --secondary: #fd79a8;
+            --accent: #00cec9;
+            --bg: #0d0d1a;
+            --bg-card: #1a1a2e;
+            --bg-card-hover: #252540;
+            --text: #f0f0f5;
+            --text-muted: #a0a0b8;
+            --border: #2d2d4a;
+            --radius: 16px;
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            --transition: 0.3s ease;
+            --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+        .light-theme {
+            --bg: #f5f0fa;
+            --bg-card: #ffffff;
+            --bg-card-hover: #f0ebf5;
+            --text: #1a1a2e;
+            --text-muted: #5a4a6a;
+            --border: #d4c8e0;
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        body {
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+            transition: background 0.3s, color 0.3s;
+        }
+        a {
+            color: var(--primary-light);
+            text-decoration: none;
+        }
+        button {
+            cursor: pointer;
+            font-family: var(--font);
+            border: none;
+            outline: none;
+            background: var(--primary);
+            color: #fff;
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        button:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(232, 67, 147, 0.4);
+        }
+        button.secondary {
+            background: transparent;
+            border: 2px solid var(--border);
+            color: var(--text);
+        }
+        button.secondary:hover {
+            border-color: var(--primary-light);
+            background: rgba(232, 67, 147, 0.1);
+        }
+        button.small {
+            padding: 6px 16px;
+            font-size: 0.8rem;
+        }
+        button.danger {
+            background: #e17055;
+        }
+        button.danger:hover {
+            background: #d63031;
+        }
+        input,
+        textarea,
+        select {
+            font-family: var(--font);
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 10px 16px;
+            border-radius: 12px;
+            width: 100%;
+            transition: var(--transition);
+        }
+        input:focus,
+        textarea:focus,
+        select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(232, 67, 147, 0.2);
+            outline: none;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+
+        /* ===== UTILITY ===== */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        .flex {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .flex-between {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+        }
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 16px;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .text-muted {
+            color: var(--text-muted);
+        }
+        .mt-1 {
+            margin-top: 8px;
+        }
+        .mt-2 {
+            margin-top: 16px;
+        }
+        .mt-3 {
+            margin-top: 24px;
+        }
+        .mb-2 {
+            margin-bottom: 16px;
+        }
+        .mb-3 {
+            margin-bottom: 24px;
+        }
+        .gap-1 {
+            gap: 8px;
+        }
+        .gap-2 {
+            gap: 16px;
+        }
+        .badge {
+            background: var(--primary);
+            color: #fff;
+            padding: 2px 12px;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+        .badge.green {
+            background: #00b894;
+        }
+        .badge.gold {
+            background: #fdcb6e;
+            color: #2d2d2d;
+        }
+        .hidden {
+            display: none !important;
+        }
+        .relative {
+            position: relative;
+        }
+
+        /* ===== AUTH PAGE ===== */
+        .auth-page {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: var(--bg);
+            padding: 24px;
+        }
+        .auth-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 40px 32px;
+            max-width: 420px;
+            width: 100%;
+            box-shadow: var(--shadow);
+        }
+        .auth-box h2 {
+            font-size: 2rem;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+        .auth-box .welcome-msg {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--primary-light);
+            margin-bottom: 20px;
+            background: rgba(232, 67, 147, 0.1);
+            border-radius: 12px;
+            padding: 16px;
+            border: 1px solid var(--primary);
+        }
+        .auth-box p {
+            color: var(--text-muted);
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        .auth-box .form-group {
+            margin-bottom: 16px;
+        }
+        .auth-box .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .auth-box .toggle-link {
+            text-align: center;
+            margin-top: 16px;
+            font-size: 0.9rem;
+        }
+        .auth-box .toggle-link a {
+            color: var(--primary-light);
+            cursor: pointer;
+        }
+        .auth-box .error {
+            color: #e17055;
+            font-size: 0.9rem;
+            margin-top: 8px;
+            display: none;
+        }
+        .auth-box .join-now-btn {
+            width: 100%;
+            margin-top: 8px;
+        }
+
+        /* ===== NAV ===== */
+        nav {
+            background: rgba(13, 13, 26, 0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 12px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: none;
+            transition: background 0.3s;
+        }
+        .light-theme nav {
+            background: rgba(255, 255, 255, 0.92);
+        }
+        nav .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary-light), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            cursor: pointer;
+        }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        .nav-links a {
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--text);
+            background: rgba(232, 67, 147, 0.2);
+        }
+        .nav-links a.active {
+            color: var(--primary-light);
+        }
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .nav-actions .username {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+        .nav-actions .notif-btn {
+            position: relative;
+            cursor: pointer;
+            font-size: 1.4rem;
+            color: var(--text-muted);
+            transition: 0.2s;
+        }
+        .nav-actions .notif-btn:hover {
+            color: var(--primary-light);
+        }
+        .nav-actions .notif-btn .notif-count {
+            position: absolute;
+            top: -6px;
+            right: -8px;
+            background: var(--primary);
+            color: #fff;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 0.6rem;
+            font-weight: 700;
+            min-width: 18px;
+            text-align: center;
+        }
+        .notif-dropdown {
+            position: absolute;
+            top: 40px;
+            right: 0;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 12px;
+            min-width: 280px;
+            max-height: 400px;
+            overflow-y: auto;
+            box-shadow: var(--shadow);
+            display: none;
+            z-index: 150;
+        }
+        .notif-dropdown.active {
+            display: block;
+        }
+        .notif-dropdown .notif-item {
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.85rem;
+        }
+        .notif-dropdown .notif-item:last-child {
+            border-bottom: none;
+        }
+        .notif-dropdown .notif-item .time {
+            color: var(--text-muted);
+            font-size: 0.7rem;
+        }
+        .notif-dropdown .notif-item.unread {
+            font-weight: 600;
+        }
+
+        /* ===== PAGES ===== */
+        .page {
+            display: none;
+            padding: 32px 0 60px;
+            animation: fadeUp 0.4s ease;
+        }
+        .page.active {
+            display: block;
+        }
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== DASHBOARD ===== */
+        .hero {
+            text-align: center;
+            padding: 60px 0 40px;
+        }
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            line-height: 1.2;
+            max-width: 720px;
+            margin: 0 auto 16px;
+        }
+        .hero h1 span {
+            background: linear-gradient(135deg, var(--primary-light), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 560px;
+            margin: 0 auto 28px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 20px;
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 32px 24px;
+            margin: 32px 0;
+            border: 1px solid var(--border);
+        }
+        .stats .stat h3 {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary-light);
+        }
+        .stats .stat p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        .section-title small {
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--text-muted);
+            display: block;
+        }
+
+        .feature-card,
+        .community-card,
+        .event-card,
+        .member-card,
+        .story-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            transition: var(--transition);
+        }
+        .feature-card:hover,
+        .community-card:hover,
+        .event-card:hover,
+        .member-card:hover,
+        .story-card:hover {
+            background: var(--bg-card-hover);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow);
+        }
+        .feature-card .icon {
+            font-size: 2.2rem;
+            margin-bottom: 8px;
+        }
+        .feature-card h4 {
+            font-size: 1.1rem;
+        }
+        .feature-card p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .category-tag {
+            display: inline-block;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 6px 18px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        .category-tag:hover {
+            border-color: var(--primary);
+            background: rgba(232, 67, 147, 0.1);
+        }
+        .category-tag strong {
+            color: var(--primary-light);
+        }
+
+        .footer {
+            border-top: 1px solid var(--border);
+            padding: 40px 0 24px;
+            margin-top: 40px;
+            background: var(--bg-card);
+        }
+        .footer .grid-4 {
+            margin-bottom: 24px;
+        }
+        .footer h5 {
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+        }
+        .footer a {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            padding: 2px 0;
+            cursor: pointer;
+        }
+        .footer a:hover {
+            color: var(--text);
+        }
+        .footer .bottom {
+            border-top: 1px solid var(--border);
+            padding-top: 16px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        /* ===== DASHBOARD ===== */
+        .dash-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+        @media (max-width: 768px) {
+            .dash-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .dash-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            transition: background 0.3s;
+        }
+        .dash-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+        }
+        .dash-stat {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 12px;
+        }
+        .dash-stat .item {
+            text-align: center;
+            padding: 12px;
+            background: var(--bg);
+            border-radius: 12px;
+        }
+        .dash-stat .item .num {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--primary-light);
+        }
+        .dash-stat .item .label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .profile-mini {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .profile-mini:last-child {
+            border-bottom: none;
+        }
+        .profile-mini .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+        .profile-mini .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .profile-mini .info {
+            flex: 1;
+        }
+        .profile-mini .info .name {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        .profile-mini .info .detail {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+        .profile-mini .action {
+            font-size: 0.75rem;
+            color: var(--primary-light);
+            cursor: pointer;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 6px 0;
+        }
+        .progress-bar .fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+            transition: width 0.6s ease;
+        }
+
+        /* ===== PROFILE ===== */
+        .profile-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 24px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+        .profile-header .avatar-lg {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.4rem;
+            font-weight: 700;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+        .profile-header .avatar-lg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .profile-header .info h2 {
+            font-size: 1.8rem;
+        }
+        .profile-header .info .handle {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        .profile-header .info .bio {
+            margin-top: 4px;
+            max-width: 480px;
+        }
+
+        .hobby-tag {
+            display: inline-block;
+            background: rgba(232, 67, 147, 0.15);
+            color: var(--primary-light);
+            padding: 4px 16px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin: 2px 4px 2px 0;
+        }
+        .hobby-tag .remove {
+            cursor: pointer;
+            margin-left: 6px;
+            color: var(--secondary);
+        }
+
+        /* Photo gallery */
+        .photo-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 12px;
+            margin-top: 8px;
+        }
+        .photo-gallery .photo-item {
+            aspect-ratio: 1;
+            border-radius: 12px;
+            overflow: hidden;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            position: relative;
+        }
+        .photo-gallery .photo-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .photo-gallery .photo-item .remove-photo {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            cursor: pointer;
+            border: none;
+        }
+
+        /* ===== DISCOVER ===== */
+        .discover-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+        }
+        .discover-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px;
+            text-align: center;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        .discover-item:hover {
+            background: var(--bg-card-hover);
+            transform: scale(1.02);
+        }
+        .discover-item .emoji {
+            font-size: 2.4rem;
+        }
+        .discover-item .count {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* ===== ADMIN ===== */
+        .admin-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+        .admin-stat {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            text-align: center;
+        }
+        .admin-stat .num {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary-light);
+        }
+        .admin-stat .label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+        .admin-stat .change {
+            font-size: 0.75rem;
+            color: #00b894;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+        th,
+        td {
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        th {
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 600px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .hero p {
+                font-size: 1rem;
+            }
+            .nav-links a {
+                font-size: 0.75rem;
+                padding: 4px 10px;
+            }
+            .container {
+                padding: 0 12px;
+            }
+            .page {
+                padding: 16px 0 40px;
+            }
+            .profile-header {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            .dash-stat {
+                grid-template-columns: 1fr 1fr;
+            }
+            .stats {
+                grid-template-columns: 1fr 1fr;
+                padding: 20px 12px;
+            }
+            .photo-gallery {
+                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            }
+            .notif-dropdown {
+                min-width: 200px;
+                right: -20px;
+            }
+        }
+
+        /* ===== MESSAGES ===== */
+        .msg-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .msg-item:last-child {
+            border-bottom: none;
+        }
+        .msg-item .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+        .msg-item .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .msg-item .content {
+            flex: 1;
+        }
+        .msg-item .content .name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .msg-item .content .preview {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+        .msg-item .time {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        .ai-box {
+            background: linear-gradient(135deg, var(--bg-card), var(--bg));
+            border: 1px solid var(--primary);
+            border-radius: var(--radius);
+            padding: 24px;
+            text-align: center;
+        }
+
+        /* ===== MODAL ===== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+        .modal {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 32px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal h2 {
+            margin-bottom: 16px;
+        }
+        .modal .form-group {
+            margin-bottom: 12px;
+        }
+        .modal .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .modal .actions {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+            margin-top: 16px;
+        }
+        .modal .file-input-wrapper {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .modal .file-input-wrapper input[type="file"] {
+            flex: 1;
+            padding: 6px;
+        }
+        .photo-preview {
+            max-width: 100px;
+            max-height: 100px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+        .search-box {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .search-box input {
+            flex: 1;
+        }
+
+        /* Activity feed */
+        .activity-item {
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.9rem;
+        }
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+        .activity-item .time {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+        }
+
+        .theme-toggle {
+            cursor: pointer;
+            font-size: 1.2rem;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            padding: 4px 8px;
+        }
+        .theme-toggle:hover {
+            color: var(--primary-light);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== AUTH PAGE ===== -->
+    <div id="authPage" class="auth-page">
+        <div class="auth-box">
+            <div class="welcome-msg">
+                💕 Hey lovebirds!<br />
+                Welcome to <strong>Hoppy Lovers</strong>!<br />
+                Let's share good vibes, sweet moments, and make this a happy little world together 🌹
+            </div>
+            <h2>♡ Hoppy Lovers</h2>
+            <p id="authSubtitle">Sign in to connect with people who share your passions.</p>
+            <div id="authError" class="error"></div>
+
+            <!-- Login Form -->
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginUsername">Username</label>
+                    <input type="text" id="loginUsername" placeholder="Enter username" required />
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" placeholder="Enter password" required />
+                </div>
+                <button type="submit" style="width:100%;">Sign In</button>
+            </form>
+
+            <!-- Register Form -->
+            <form id="registerForm" style="display:none;">
+                <div class="form-group">
+                    <label for="regUsername">Username</label>
+                    <input type="text" id="regUsername" placeholder="Choose a username" required />
+                </div>
+                <div class="form-group">
+                    <label for="regEmail">Email</label>
+                    <input type="email" id="regEmail" placeholder="your@email.com" required />
+                </div>
+                <div class="form-group">
+                    <label for="regPassword">Password</label>
+                    <input type="password" id="regPassword" placeholder="Min 6 characters" required minlength="6" />
+                </div>
+                <div class="form-group">
+                    <label for="regHobbies">Hobbies (comma separated)</label>
+                    <input type="text" id="regHobbies" placeholder="e.g. Travel, Photography, Music" />
+                </div>
+                <button type="submit" style="width:100%;">Create Account</button>
+            </form>
+
+            <div class="toggle-link">
+                <span id="toggleAuthText">Don't have an account?</span>
+                <a id="toggleAuthLink">Sign Up</a>
+            </div>
+            <button class="join-now-btn secondary" id="joinNowBtn">💕 Join Now – It's Free</button>
+        </div>
+    </div>
+
+    <!-- ===== MAIN APP ===== -->
+    <div id="app" style="display:none;">
+
+        <!-- ===== NAVIGATION ===== -->
+        <nav id="mainNav">
+            <div class="container">
+                <div class="logo" id="navLogo">♡ Hoppy Lovers</div>
+                <div class="nav-links" id="navLinks">
+                    <a data-page="dashboard" class="active">Dashboard</a>
+                    <a data-page="profile">Profile</a>
+                    <a data-page="discover">Discover</a>
+                    <a data-page="messages">Messages</a>
+                    <a data-page="events">Events</a>
+                    <a data-page="communities">Communities</a>
+                    <a data-page="admin" id="adminNavLink" style="display:none;">Admin</a>
+                </div>
+                <div class="nav-actions">
+                    <span class="username" id="navUsername"></span>
+                    <button class="theme-toggle" id="themeToggle" title="Toggle theme">🌙</button>
+                    <div class="relative">
+                        <span class="notif-btn" id="notifBtn">🔔<span class="notif-count" id="notifCount">0</span></span>
+                        <div class="notif-dropdown" id="notifDropdown"></div>
+                    </div>
+                    <button class="small secondary" id="logoutBtn">Logout</button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- ===== PAGE: DASHBOARD ===== -->
+        <div class="page active" id="page-dashboard">
+            <div class="container">
+                <div class="hero">
+                    <h1>Welcome, <span id="dashUsername">User</span>!</h1>
+                    <p>Find your people. Share what you love.</p>
+                </div>
+
+                <div class="stats" id="dashStats">
+                    <div class="stat"><h3 id="statMembers">0</h3><p>Members</p></div>
+                    <div class="stat"><h3 id="statCommunities">0</h3><p>Communities</p></div>
+                    <div class="stat"><h3 id="statEvents">0</h3><p>Events</p></div>
+                    <div class="stat"><h3 id="statMatches">0</h3><p>Your Matches</p></div>
+                </div>
+
+                <div class="dash-grid">
+                    <div>
+                        <div class="dash-card mb-3">
+                            <h3>My Top Hobbies</h3>
+                            <div id="myHobbiesList"><span class="text-muted">No hobbies added yet.</span></div>
+                            <button class="small mt-1" id="addHobbyBtn">+ Add Hobby</button>
+                        </div>
+
+                        <div class="dash-card mb-3">
+                            <h3>Recommended For You</h3>
+                            <div id="recommendedList"><span class="text-muted">No recommendations yet.</span></div>
+                        </div>
+
+                        <div class="dash-card mb-3">
+                            <h3>Activity Feed</h3>
+                            <div id="activityFeed"><span class="text-muted">No recent activity.</span></div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="dash-card mb-3">
+                            <h3>Profile Progress</h3>
+                            <div class="progress-bar"><div class="fill" id="profileProgressFill" style="width:0%"></div></div>
+                            <ul style="list-style:none; font-size:0.9rem;" id="profileChecklist">
+                                <li id="checkPhoto">⏳ Add Profile Photo</li>
+                                <li id="checkBio">⏳ Add About You</li>
+                                <li id="checkHobbies">⏳ Add Hobbies</li>
+                                <li id="checkVerify">⏳ Verify Your Account</li>
+                            </ul>
+                        </div>
+
+                        <div class="dash-card mb-3">
+                            <h3>AI Matchmaker</h3>
+                            <p class="text-muted">Let our AI find your perfect match based on your interests.</p>
+                            <button id="findMatchBtn">Find My Match →</button>
+                            <div id="matchResult" class="mt-1 text-muted"></div>
+                        </div>
+
+                        <div class="dash-card">
+                            <h3>Recent Messages</h3>
+                            <div id="recentMessages"><span class="text-muted">No messages yet.</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== PAGE: PROFILE ===== -->
+        <div class="page" id="page-profile">
+            <div class="container">
+                <div class="profile-header">
+                    <div class="avatar-lg" id="profileAvatar">U</div>
+                    <div class="info">
+                        <h2 id="profileName">User</h2>
+                        <div class="handle" id="profileHandle">@username • Location</div>
+                        <div class="bio" id="profileBio">No bio yet.</div>
+                        <button class="small mt-1" id="editProfileBtn">Edit Profile</button>
+                        <button class="small secondary mt-1" id="shareProfileBtn">🔗 Share Profile</button>
+                    </div>
+                </div>
+
+                <div class="dash-grid">
+                    <div>
+                        <div class="dash-card mb-3">
+                            <h3>My Hobbies</h3>
+                            <div id="profileHobbiesList"><span class="text-muted">No hobbies added.</span></div>
+                            <button class="small mt-1" id="profileAddHobbyBtn">+ Add Hobby</button>
+                        </div>
+                        <div class="dash-card mb-3">
+                            <h3>Photo Gallery</h3>
+                            <div id="profilePhotoGallery" class="photo-gallery">
+                                <span class="text-muted">No photos yet.</span>
+                            </div>
+                            <button class="small mt-1" id="addPhotoBtn">+ Add Photo</button>
+                        </div>
+                        <div class="dash-card mb-3">
+                            <h3>Recommended For You</h3>
+                            <div id="profileRecommended"><span class="text-muted">No recommendations.</span></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="dash-card mb-3">
+                            <h3>Stats</h3>
+                            <div class="flex-between"><span>👁️ Profile Visitors</span><span id="profileVisitors">0</span></div>
+                            <div class="flex-between"><span>💬 Messages</span><span id="profileMessages">0</span></div>
+                            <div class="flex-between"><span>❤️ Likes</span><span id="profileLikes">0</span></div>
+                            <div class="flex-between"><span>📊 Profile Complete</span><span id="profileComplete">0%</span></div>
+                        </div>
+                        <div class="dash-card">
+                            <h3>AI Matchmaker</h3>
+                            <p class="text-muted">Let our AI find your perfect match.</p>
+                            <button id="profileFindMatchBtn">Find My Match →</button>
+                            <div id="profileMatchResult" class="mt-1 text-muted"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== PAGE: DISCOVER ===== -->
+        <div class="page" id="page-discover">
+            <div class="container">
+                <h2 class="section-title">Discover</h2>
+                <p class="text-muted mb-3">Explore hobbies and find people who share your passions.</p>
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search by username or hobby..." />
+                    <button id="searchBtn">Search</button>
+                </div>
+                <div class="discover-grid" id="discoverGrid">
+                    <!-- populated by JS -->
+                </div>
+                <h2 class="section-title mt-3">Featured Members</h2>
+                <div class="grid-3" id="featuredMembers">
+                    <!-- populated by JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== PAGE: MESSAGES ===== -->
+        <div class="page" id="page-messages">
+            <div class="container">
+                <h2 class="section-title">Messages</h2>
+                <div class="dash-card" id="messagesList">
+                    <span class="text-muted">No messages yet. Start a conversation!</span>
+                </div>
+                <button class="mt-2" id="newMessageBtn">+ New Message</button>
+            </div>
+        </div>
+
+        <!-- ===== PAGE: EVENTS ===== -->
+        <div class="page" id="page-events">
+            <div class="container">
+                <h2 class="section-title">Events</h2>
+                <button class="mb-3" id="createEventBtn">+ Create Event</button>
+                <div class="grid-2" id="eventsList">
+                    <span class="text-muted">No events yet. Create one!</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== PAGE: COMMUNITIES ===== -->
+        <div class="page" id="page-communities">
+            <div class="container">
+                <h2 class="section-title">Communities</h2>
+                <button class="mb-3" id="createCommunityBtn">+ Create Community</button>
+                <div class="grid-2" id="communitiesList">
+                    <span class="text-muted">No communities yet. Create one!</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== PAGE: ADMIN ===== -->
+        <div class="page" id="page-admin">
+            <div class="container">
+                <h2 class="section-title">Admin Dashboard</h2>
+                <div class="admin-grid mb-3" id="adminStats">
+                    <div class="admin-stat"><div class="num" id="adminUsers">0</div><div class="label">Total Users</div></div>
+                    <div class="admin-stat"><div class="num" id="adminCommunities">0</div><div class="label">Communities</div></div>
+                    <div class="admin-stat"><div class="num" id="adminEvents">0</div><div class="label">Events</div></div>
+                    <div class="admin-stat"><div class="num" id="adminMessages">0</div><div class="label">Messages</div></div>
+                    <div class="admin-stat"><div class="num" id="adminReports">0</div><div class="label">Reports</div></div>
+                </div>
+
+                <div class="dash-card mb-3">
+                    <h3>All Users</h3>
+                    <div class="table-wrap">
+                        <table id="adminUsersTable">
+                            <thead><tr><th>Username</th><th>Email</th><th>Hobbies</th><th>Joined</th><th>Action</th></tr></thead>
+                            <tbody id="adminUsersBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="dash-card mb-3">
+                    <h3>All Events</h3>
+                    <div class="table-wrap">
+                        <table id="adminEventsTable">
+                            <thead><tr><th>Title</th><th>Date</th><th>Location</th><th>Going</th><th>Action</th></tr></thead>
+                            <tbody id="adminEventsBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="dash-card mb-3">
+                    <h3>All Communities</h3>
+                    <div class="table-wrap">
+                        <table id="adminCommunitiesTable">
+                            <thead><tr><th>Name</th><th>Members</th><th>Action</th></tr></thead>
+                            <tbody id="adminCommunitiesBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="dash-card">
+                    <h3>Reports</h3>
+                    <div class="table-wrap">
+                        <table id="adminReportsTable">
+                            <thead><tr><th>Reported User</th><th>Reporter</th><th>Reason</th><th>Date</th><th>Action</th></tr></thead>
+                            <tbody id="adminReportsBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== MODALS ===== -->
+        <div class="modal-overlay" id="modalOverlay">
+            <div class="modal" id="modalContent">
+                <h2 id="modalTitle">Modal</h2>
+                <div id="modalBody"></div>
+                <div class="actions">
+                    <button class="secondary" id="modalCancel">Cancel</button>
+                    <button id="modalConfirm">Confirm</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== FOOTER ===== -->
+        <div class="footer" id="mainFooter">
+            <div class="container">
+                <div class="grid-4">
+                    <div><h5>Explore</h5><a data-page="dashboard">Dashboard</a><a data-page="discover">Discover</a><a data-page="communities">Communities</a><a data-page="events">Events</a><a data-page="messages">Messages</a></div>
+                    <div><h5>Support</h5><a href="#">Help Center</a><a href="#">Safety Tips</a><a href="#">Terms of Service</a><a href="#">Privacy Policy</a></div>
+                    <div><h5>Company</h5><a href="#">About Us</a><a href="#">Blog</a><a href="#">Careers</a></div>
+                    <div><h5>Subscribe</h5><p>Get the latest updates.</p><input type="email" placeholder="Enter your email" style="max-width:200px; display:inline-block; width:auto;"><button class="small" style="margin-top:8px;">Subscribe</button></div>
+                </div>
+                <div class="bottom">© 2025 Hoppy Lovers. All rights reserved. Made with ❤️ for hobby lovers everywhere.</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================================
+        //  DATA LAYER (localStorage)
+        // ============================================================
+        const DB = {
+            get(key, def) {
+                try { return JSON.parse(localStorage.getItem(key)) || def; } catch { return def; }
+            },
+            set(key, val) {
+                localStorage.setItem(key, JSON.stringify(val));
+            },
+            getUsers() { return this.get('users', []); },
+            setUsers(u) { this.set('users', u); },
+            getEvents() { return this.get('events', []); },
+            setEvents(e) { this.set('events', e); },
+            getCommunities() { return this.get('communities', []); },
+            setCommunities(c) { this.set('communities', c); },
+            getMessages() { return this.get('messages', []); },
+            setMessages(m) { this.set('messages', m); },
+            getActivities() { return this.get('activities', []); },
+            setActivities(a) { this.set('activities', a); },
+            getReports() { return this.get('reports', []); },
+            setReports(r) { this.set('reports', r); },
+            getCurrentUser() { return this.get('currentUser', null); },
+            setCurrentUser(u) { this.set('currentUser', u); },
+            clearCurrentUser() { localStorage.removeItem('currentUser'); },
+            findUser(username) {
+                return this.getUsers().find(u => u.username === username);
+            },
+            saveUser(user) {
+                let users = this.getUsers();
+                const idx = users.findIndex(u => u.username === user.username);
+                if (idx >= 0) users[idx] = user;
+                else users.push(user);
+                this.setUsers(users);
+            },
+            addActivity(activity) {
+                let activities = this.getActivities();
+                activities.unshift({ ...activity, timestamp: Date.now() });
+                if (activities.length > 200) activities = activities.slice(0, 200);
+                this.setActivities(activities);
+            },
+            addNotification(username, notification) {
+                const user = this.findUser(username);
+                if (!user) return;
+                if (!user.notifications) user.notifications = [];
+                user.notifications.unshift({ ...notification, read: false, timestamp: Date.now() });
+                if (user.notifications.length > 100) user.notifications = user.notifications.slice(0, 100);
+                this.saveUser(user);
+                if (username === currentUser?.username) {
+                    // Refresh UI if current user
+                    renderNotifications();
+                }
+            }
+        };
+
+        // ============================================================
+        //  AUTH
+        // ============================================================
+        let currentUser = null;
+        let isAdmin = false;
+
+        function loadCurrentUser() {
+            const data = DB.getCurrentUser();
+            if (data) {
+                currentUser = data;
+                isAdmin = currentUser.username === 'admin';
+                return true;
+            }
+            return false;
+        }
+
+        function saveCurrentUser(user) {
+            currentUser = user;
+            isAdmin = user.username === 'admin';
+            DB.setCurrentUser(user);
+            DB.saveUser(user);
+            // Update lastActive
+            user.lastActive = Date.now();
+            DB.saveUser(user);
+        }
+
+        function logout() {
+            if (currentUser) {
+                currentUser.lastActive = Date.now();
+                DB.saveUser(currentUser);
+            }
+            DB.clearCurrentUser();
+            currentUser = null;
+            isAdmin = false;
+            document.getElementById('app').style.display = 'none';
+            document.getElementById('authPage').style.display = 'flex';
+            document.getElementById('mainNav').style.display = 'none';
+            document.getElementById('mainFooter').style.display = 'none';
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('registerForm').style.display = 'none';
+            document.getElementById('authSubtitle').textContent = 'Sign in to connect with people who share your passions.';
+            document.getElementById('toggleAuthText').textContent = "Don't have an account?";
+            document.getElementById('toggleAuthLink').textContent = 'Sign Up';
+        }
+
+        // ============================================================
+        //  UI HELPERS
+        // ============================================================
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            const target = document.getElementById('page-' + pageId);
+            if (target) target.classList.add('active');
+            document.querySelectorAll('#navLinks a').forEach(a => {
+                a.classList.remove('active');
+                if (a.dataset.page === pageId) a.classList.add('active');
+            });
+            const adminLink = document.getElementById('adminNavLink');
+            if (isAdmin) adminLink.style.display = 'inline-block';
+            else adminLink.style.display = 'none';
+            const footer = document.getElementById('mainFooter');
+            if (pageId === 'dashboard') footer.style.display = 'block';
+            else footer.style.display = 'none';
+            if (pageId === 'dashboard') renderDashboard();
+            else if (pageId === 'profile') renderProfile();
+            else if (pageId === 'discover') renderDiscover();
+            else if (pageId === 'messages') renderMessages();
+            else if (pageId === 'events') renderEvents();
+            else if (pageId === 'communities') renderCommunities();
+            else if (pageId === 'admin' && isAdmin) renderAdmin();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function getHobbyList(hobbies) {
+            if (!hobbies || hobbies.length === 0) return [];
+            return hobbies.map(h => h.trim()).filter(h => h);
+        }
+
+        function generateId() { return Date.now().toString(36) + Math.random().toString(36).substring(2, 6); }
+
+        function timeAgo(timestamp) {
+            const diff = Date.now() - timestamp;
+            const mins = Math.floor(diff / 60000);
+            if (mins < 1) return 'Just now';
+            if (mins < 60) return mins + 'm ago';
+            const hrs = Math.floor(mins / 60);
+            if (hrs < 24) return hrs + 'h ago';
+            const days = Math.floor(hrs / 24);
+            if (days < 7) return days + 'd ago';
+            return new Date(timestamp).toLocaleDateString();
+        }
+
+        // ============================================================
+        //  NOTIFICATIONS
+        // ============================================================
+        function renderNotifications() {
+            const notifs = currentUser.notifications || [];
+            const unread = notifs.filter(n => !n.read).length;
+            document.getElementById('notifCount').textContent = unread;
+            const dropdown = document.getElementById('notifDropdown');
+            if (notifs.length === 0) {
+                dropdown.innerHTML = '<div class="notif-item text-muted">No notifications</div>';
+            } else {
+                dropdown.innerHTML = notifs.slice(0, 20).map(n => `
+                    <div class="notif-item ${n.read ? '' : 'unread'}" data-id="${n.id}">
+                        ${n.message}
+                        <div class="time">${timeAgo(n.timestamp)}</div>
+                    </div>
+                `).join('');
+                // Mark as read when opened
+                if (unread > 0) {
+                    currentUser.notifications.forEach(n => n.read = true);
+                    DB.saveUser(currentUser);
+                    DB.setCurrentUser(currentUser);
+                }
+            }
+        }
+
+        // ============================================================
+        //  RENDER FUNCTIONS
+        // ============================================================
+        function renderDashboard() {
+            if (!currentUser) return;
+            document.getElementById('dashUsername').textContent = currentUser.username;
+            const users = DB.getUsers();
+            const communities = DB.getCommunities();
+            const events = DB.getEvents();
+            const messages = DB.getMessages().filter(m => m.from === currentUser.username || m.to === currentUser.username);
+            document.getElementById('statMembers').textContent = users.length;
+            document.getElementById('statCommunities').textContent = communities.length;
+            document.getElementById('statEvents').textContent = events.length;
+            document.getElementById('statMatches').textContent = currentUser.matches ? currentUser.matches.length : 0;
+
+            // Hobbies
+            const hobbies = getHobbyList(currentUser.hobbies);
+            const hobbyContainer = document.getElementById('myHobbiesList');
+            if (hobbies.length === 0) {
+                hobbyContainer.innerHTML = '<span class="text-muted">No hobbies added yet.</span>';
+            } else {
+                hobbyContainer.innerHTML = hobbies.map(h =>
+                    `<span class="hobby-tag">${h} <span class="remove" data-hobby="${h}">✕</span></span>`
+                ).join('');
+                hobbyContainer.querySelectorAll('.remove').forEach(el => {
+                    el.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        const hobby = this.dataset.hobby;
+                        currentUser.hobbies = currentUser.hobbies.filter(h => h !== hobby);
+                        DB.saveUser(currentUser);
+                        DB.setCurrentUser(currentUser);
+                        renderDashboard();
+                    });
+                });
+            }
+
+            // Recommended (excluding blocked)
+            const blocked = currentUser.blocked || [];
+            const allUsers = DB.getUsers().filter(u => u.username !== currentUser.username && !blocked.includes(u.username));
+            const myHobbies = new Set(hobbies.map(h => h.toLowerCase()));
+            let recommendations = allUsers.filter(u => {
+                const uh = getHobbyList(u.hobbies).map(h => h.toLowerCase());
+                return uh.some(h => myHobbies.has(h));
+            });
+            recommendations = recommendations.slice(0, 4);
+            const recContainer = document.getElementById('recommendedList');
+            if (recommendations.length === 0) {
+                recContainer.innerHTML = '<span class="text-muted">No recommendations yet.</span>';
+            } else {
+                recContainer.innerHTML = recommendations.map(u => {
+                    const avatarHtml = u.profilePhoto ? `<img src="${u.profilePhoto}" alt="" />` : u.username.charAt(0)
+                        .toUpperCase();
+                    return `
+                    <div class="profile-mini">
+                        <div class="avatar">${avatarHtml}</div>
+                        <div class="info">
+                            <div class="name">${u.username}</div>
+                            <div class="detail">${u.hobbies ? u.hobbies.join(', ') : 'No hobbies'}</div>
+                        </div>
+                        <span class="action" data-username="${u.username}">Connect</span>
+                    </div>
+                `;
+                }).join('');
+                recContainer.querySelectorAll('.action').forEach(el => {
+                    el.addEventListener('click', function() {
+                        const target = this.dataset.username;
+                        if (!currentUser.matches) currentUser.matches = [];
+                        if (!currentUser.matches.includes(target)) {
+                            currentUser.matches.push(target);
+                            DB.saveUser(currentUser);
+                            DB.setCurrentUser(currentUser);
+                            // Add notification to target
+                            DB.addNotification(target, {
+                                id: generateId(),
+                                message: `${currentUser.username} connected with you!`
+                            });
+                            // Add activity
+                            DB.addActivity({
+                                user: currentUser.username,
+                                action: 'connected',
+                                target: target
+                            });
+                            alert(`You connected with ${target}!`);
+                            renderDashboard();
+                        } else {
+                            alert(`Already connected with ${target}`);
+                        }
+                    });
+                });
+            }
+
+            // Profile progress
+            let progress = 0;
+            const checks = {
+                photo: currentUser.profilePhoto ? 25 : 0,
+                bio: currentUser.bio && currentUser.bio.length > 0 ? 25 : 0,
+                hobbies: currentUser.hobbies && currentUser.hobbies.length > 0 ? 25 : 0,
+                verified: currentUser.verified ? 25 : 0
+            };
+            progress = checks.photo + checks.bio + checks.hobbies + checks.verified;
+            document.getElementById('profileProgressFill').style.width = progress + '%';
+            document.getElementById('checkPhoto').textContent = currentUser.profilePhoto ? '✅ Add Profile Photo' :
+                '⏳ Add Profile Photo';
+            document.getElementById('checkBio').textContent = currentUser.bio && currentUser.bio.length > 0 ? '✅ Add About You' :
+                '⏳ Add About You';
+            document.getElementById('checkHobbies').textContent = currentUser.hobbies && currentUser.hobbies.length > 0 ?
+                '✅ Add Hobbies' : '⏳ Add Hobbies';
+            document.getElementById('checkVerify').textContent = currentUser.verified ? '✅ Verify Your Account' :
+                '⏳ Verify Your Account';
+
+            // Recent messages
+            const msgs = DB.getMessages().filter(m => m.from === currentUser.username || m.to === currentUser.username)
+                .sort((a, b) => b.timestamp - a.timestamp).slice(0, 5);
+            const msgContainer = document.getElementById('recentMessages');
+            if (msgs.length === 0) {
+                msgContainer.innerHTML = '<span class="text-muted">No messages yet.</span>';
+            } else {
+                msgContainer.innerHTML = msgs.map(m => `
+                    <div class="msg-item">
+                        <div class="avatar">${m.from.charAt(0).toUpperCase()}</div>
+                        <div class="content">
+                            <div class="name">${m.from}</div>
+                            <div class="preview">${m.content}</div>
+                        </div>
+                        <span class="time">${timeAgo(m.timestamp)}</span>
+                    </div>
+                `).join('');
+            }
+
+            // Activity feed
+            const activities = DB.getActivities().slice(0, 10);
+            const feedContainer = document.getElementById('activityFeed');
+            if (activities.length === 0) {
+                feedContainer.innerHTML = '<span class="text-muted">No recent activity.</span>';
+            } else {
+                feedContainer.innerHTML = activities.map(a => `
+                    <div class="activity-item">
+                        <strong>${a.user}</strong> ${a.action} ${a.target ? 'with ' + a.target : ''}
+                        <span class="time">${timeAgo(a.timestamp)}</span>
+                    </div>
+                `).join('');
+            }
+
+            document.getElementById('navUsername').textContent = currentUser.username;
+            renderNotifications();
+        }
+
+        function renderProfile() {
+            if (!currentUser) return;
+            const avatarEl = document.getElementById('profileAvatar');
+            if (currentUser.profilePhoto) {
+                avatarEl.innerHTML = `<img src="${currentUser.profilePhoto}" alt="" />`;
+            } else {
+                avatarEl.textContent = currentUser.username.charAt(0).toUpperCase();
+            }
+            document.getElementById('profileName').textContent = currentUser.username;
+            document.getElementById('profileHandle').textContent =
+                `@${currentUser.username} • ${currentUser.location || 'No location'}`;
+            document.getElementById('profileBio').textContent = currentUser.bio || 'No bio yet.';
+
+            const hobbies = getHobbyList(currentUser.hobbies);
+            const container = document.getElementById('profileHobbiesList');
+            if (hobbies.length === 0) {
+                container.innerHTML = '<span class="text-muted">No hobbies added.</span>';
+            } else {
+                container.innerHTML = hobbies.map(h =>
+                    `<span class="hobby-tag">${h}</span>`
+                ).join(' ');
+            }
+
+            const gallery = document.getElementById('profilePhotoGallery');
+            const photos = currentUser.photos || [];
+            if (photos.length === 0) {
+                gallery.innerHTML = '<span class="text-muted">No photos yet.</span>';
+            } else {
+                gallery.innerHTML = photos.map((p, idx) => `
+                    <div class="photo-item">
+                        <img src="${p}" alt="Photo ${idx+1}" />
+                        <button class="remove-photo" data-idx="${idx}">✕</button>
+                    </div>
+                `).join('');
+                gallery.querySelectorAll('.remove-photo').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const idx = parseInt(this.dataset.idx);
+                        currentUser.photos.splice(idx, 1);
+                        DB.saveUser(currentUser);
+                        DB.setCurrentUser(currentUser);
+                        renderProfile();
+                    });
+                });
+            }
+
+            // Recommendations (excluding blocked)
+            const blocked = currentUser.blocked || [];
+            const allUsers = DB.getUsers().filter(u => u.username !== currentUser.username && !blocked.includes(u.username));
+            const myHobbies = new Set(hobbies.map(h => h.toLowerCase()));
+            let recs = allUsers.filter(u => {
+                const uh = getHobbyList(u.hobbies).map(h => h.toLowerCase());
+                return uh.some(h => myHobbies.has(h));
+            }).slice(0, 4);
+            const recContainer = document.getElementById('profileRecommended');
+            if (recs.length === 0) {
+                recContainer.innerHTML = '<span class="text-muted">No recommendations.</span>';
+            } else {
+                recContainer.innerHTML = recs.map(u => {
+                    const avatarHtml = u.profilePhoto ? `<img src="${u.profilePhoto}" alt="" />` : u.username.charAt(0)
+                        .toUpperCase();
+                    return `
+                    <div class="profile-mini">
+                        <div class="avatar">${avatarHtml}</div>
+                        <div class="info">
+                            <div class="name">${u.username}</div>
+                            <div class="detail">${u.hobbies ? u.hobbies.join(', ') : 'No hobbies'}</div>
+                        </div>
+                    </div>
+                `;
+                }).join('');
+            }
+
+            const msgs = DB.getMessages().filter(m => m.from === currentUser.username || m.to === currentUser.username);
+            document.getElementById('profileVisitors').textContent = Math.floor(Math.random() * 20) + 5;
+            document.getElementById('profileMessages').textContent = msgs.length;
+            document.getElementById('profileLikes').textContent = Math.floor(Math.random() * 30) + 5;
+            let progress = 0;
+            if (currentUser.profilePhoto) progress += 25;
+            if (currentUser.bio && currentUser.bio.length > 0) progress += 25;
+            if (currentUser.hobbies && currentUser.hobbies.length > 0) progress += 25;
+            if (currentUser.verified) progress += 25;
+            document.getElementById('profileComplete').textContent = progress + '%';
+        }
+
+        function renderDiscover(searchTerm) {
+            const users = DB.getUsers().filter(u => u.username !== currentUser.username);
+            const blocked = currentUser.blocked || [];
+            let filtered = users.filter(u => !blocked.includes(u.username));
+
+            if (searchTerm) {
+                const term = searchTerm.toLowerCase();
+                filtered = filtered.filter(u =>
+                    u.username.toLowerCase().includes(term) ||
+                    (u.hobbies && u.hobbies.some(h => h.toLowerCase().includes(term)))
+                );
+            }
+
+            // Hobby categories
+            const hobbyMap = {};
+            filtered.forEach(u => {
+                const hobbies = getHobbyList(u.hobbies);
+                hobbies.forEach(h => {
+                    const key = h.toLowerCase();
+                    if (!hobbyMap[key]) hobbyMap[key] = { name: h, count: 0 };
+                    hobbyMap[key].count++;
+                });
+            });
+            const categories = Object.values(hobbyMap).sort((a, b) => b.count - a.count);
+            const grid = document.getElementById('discoverGrid');
+            if (categories.length === 0 && filtered.length === 0) {
+                grid.innerHTML = '<span class="text-muted">No users or hobbies found.</span>';
+            } else if (categories.length === 0) {
+                grid.innerHTML = '<span class="text-muted">No hobbies discovered yet. Add yours!</span>';
+            } else {
+                grid.innerHTML = categories.map(c => `
+                    <div class="discover-item">
+                        <div class="emoji">🎯</div>
+                        <strong>${c.name}</strong>
+                        <div class="count">${c.count} Members</div>
+                    </div>
+                `).join('');
+            }
+
+            // Featured members (filtered)
+            const featured = filtered.slice(0, 6);
+            const memberContainer = document.getElementById('featuredMembers');
+            if (featured.length === 0) {
+                memberContainer.innerHTML = '<span class="text-muted">No other members found.</span>';
+            } else {
+                memberContainer.innerHTML = featured.map(u => `
+                    <div class="member-card">
+                        <strong>${u.username}</strong><br />
+                        ${u.hobbies ? u.hobbies.slice(0,2).join(', ') : 'No hobbies'}
+                        <span class="text-muted">${u.location || ''}</span>
+                        <div class="mt-1">
+                            <button class="small" data-username="${u.username}">View</button>
+                            <button class="small secondary" data-username="${u.username}" data-action="block">Block</button>
+                        </div>
+                    </div>
+                `).join('');
+                memberContainer.querySelectorAll('[data-username]').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const target = this.dataset.username;
+                        if (this.dataset.action === 'block') {
+                            if (!currentUser.blocked) currentUser.blocked = [];
+                            if (!currentUser.blocked.includes(target)) {
+                                currentUser.blocked.push(target);
+                                DB.saveUser(currentUser);
+                                DB.setCurrentUser(currentUser);
+                                alert(`Blocked ${target}`);
+                                renderDiscover(document.getElementById('searchInput').value);
+                            } else {
+                                alert('Already blocked.');
+                            }
+                        } else {
+                            // View profile - show modal with user details
+                            const user = DB.findUser(target);
+                            if (user) {
+                                const avatarHtml = user.profilePhoto ? `<img src="${user.profilePhoto}" style="max-width:80px; border-radius:50%;" />` :
+                                    'No photo';
+                                openModal(`Profile: ${user.username}`, `
+                                    <div class="text-center">
+                                        ${avatarHtml}
+                                        <p><strong>${user.username}</strong></p>
+                                        <p class="text-muted">${user.bio || 'No bio'}</p>
+                                        <p>📍 ${user.location || 'No location'}</p>
+                                        <p>🎯 ${user.hobbies ? user.hobbies.join(', ') : 'No hobbies'}</p>
+                                        <button class="small" data-username="${user.username}" id="reportUserBtn">Report</button>
+                                    </div>
+                                `, 'Close', function() {});
+                                // Add report handler
+                                setTimeout(() => {
+                                    const reportBtn = document.getElementById('reportUserBtn');
+                                    if (reportBtn) {
+                                        reportBtn.addEventListener('click', function() {
+                                            const reason = prompt('Why are you reporting this user?');
+                                            if (reason) {
+                                                let reports = DB.getReports();
+                                                reports.push({
+                                                    reported: target,
+                                                    reporter: currentUser.username,
+                                                    reason: reason,
+                                                    timestamp: Date.now()
+                                                });
+                                                DB.setReports(reports);
+                                                alert('Report submitted. Admin will review.');
+                                                closeModal();
+                                            }
+                                        });
+                                    }
+                                }, 100);
+                            }
+                        }
+                    });
+                });
+            }
+        }
+
+        function renderMessages() {
+            const msgs = DB.getMessages().filter(m => m.from === currentUser.username || m.to === currentUser.username)
+                .sort((a, b) => b.timestamp - a.timestamp);
+            const container = document.getElementById('messagesList');
+            if (msgs.length === 0) {
+                container.innerHTML = '<span class="text-muted">No messages yet. Start a conversation!</span>';
+            } else {
+                container.innerHTML = msgs.map(m => `
+                    <div class="msg-item">
+                        <div class="avatar">${m.from.charAt(0).toUpperCase()}</div>
+                        <div class="content">
+                            <div class="name">${m.from} → ${m.to}</div>
+                            <div class="preview">${m.content}</div>
+                        </div>
+                        <span class="time">${timeAgo(m.timestamp)}</span>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function renderEvents() {
+            const events = DB.getEvents();
+            const container = document.getElementById('eventsList');
+            if (events.length === 0) {
+                container.innerHTML = '<span class="text-muted">No events yet. Create one!</span>';
+            } else {
+                container.innerHTML = events.map(e => `
+                    <div class="event-card">
+                        <strong>${e.title}</strong>
+                        <div class="date">${e.date}</div>
+                        <div class="location">${e.location}</div>
+                        <span class="badge">${e.going ? e.going.length : 0} Going</span>
+                        <button class="small secondary mt-1" data-eventid="${e.id}">Join</button>
+                    </div>
+                `).join('');
+                container.querySelectorAll('[data-eventid]').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const id = this.dataset.eventid;
+                        const ev = DB.getEvents().find(e => e.id === id);
+                        if (ev) {
+                            if (!ev.going) ev.going = [];
+                            if (!ev.going.includes(currentUser.username)) {
+                                ev.going.push(currentUser.username);
+                                DB.setEvents(DB.getEvents());
+                                DB.addActivity({
+                                    user: currentUser.username,
+                                    action: 'joined event',
+                                    target: ev.title
+                                });
+                                alert(`You joined "${ev.title}"!`);
+                                renderEvents();
+                            } else {
+                                alert('You are already going.');
+                            }
+                        }
+                    });
+                });
+            }
+        }
+
+        function renderCommunities() {
+            const communities = DB.getCommunities();
+            const container = document.getElementById('communitiesList');
+            if (communities.length === 0) {
+                container.innerHTML = '<span class="text-muted">No communities yet. Create one!</span>';
+            } else {
+                container.innerHTML = communities.map(c => {
+                    const isMember = c.members && c.members.includes(currentUser.username);
+                    return `
+                    <div class="community-card">
+                        <strong>${c.name}</strong>
+                        <span class="text-muted">${c.members ? c.members.length : 0} Members</span>
+                        <br /><span class="badge">${isMember ? 'Member' : 'Active'}</span>
+                        <button class="small secondary mt-1" data-communityid="${c.id}">${isMember ? 'Leave' : 'Join'}</button>
+                    </div>
+                `;
+                }).join('');
+                container.querySelectorAll('[data-communityid]').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const id = this.dataset.commid;
+                        const comm = DB.getCommunities().find(c => c.id === id);
+                        if (comm) {
+                            if (!comm.members) comm.members = [];
+                            if (comm.members.includes(currentUser.username)) {
+                                comm.members = comm.members.filter(u => u !== currentUser.username);
+                                DB.setCommunities(DB.getCommunities());
+                                alert(`Left "${comm.name}"`);
+                                renderCommunities();
+                            } else {
+                                comm.members.push(currentUser.username);
+                                DB.setCommunities(DB.getCommunities());
+                                DB.addActivity({
+                                    user: currentUser.username,
+                                    action: 'joined community',
+                                    target: comm.name
+                                });
+                                alert(`Joined "${comm.name}"!`);
+                                renderCommunities();
+                            }
+                        }
+                    });
+                });
+            }
+        }
+
+        function renderAdmin() {
+            if (!isAdmin) return;
+            const users = DB.getUsers();
+            const communities = DB.getCommunities();
+            const events = DB.getEvents();
+            const messages = DB.getMessages();
+            const reports = DB.getReports();
+            document.getElementById('adminUsers').textContent = users.length;
+            document.getElementById('adminCommunities').textContent = communities.length;
+            document.getElementById('adminEvents').textContent = events.length;
+            document.getElementById('adminMessages').textContent = messages.length;
+            document.getElementById('adminReports').textContent = reports.length;
+
+            const userBody = document.getElementById('adminUsersBody');
+            userBody.innerHTML = users.map(u => `
+                <tr>
+                    <td>${u.username}</td>
+                    <td>${u.email || 'N/A'}</td>
+                    <td>${u.hobbies ? u.hobbies.join(', ') : '-'}</td>
+                    <td>${u.joined || 'N/A'}</td>
+                    <td><button class="small danger" data-username="${u.username}">Delete</button></td>
+                </tr>
+            `).join('');
+            userBody.querySelectorAll('[data-username]').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const uname = this.dataset.username;
+                    if (uname === 'admin') { alert('Cannot delete admin.'); return; }
+                    if (confirm(`Delete user ${uname}?`)) {
+                        let usersList = DB.getUsers().filter(u => u.username !== uname);
+                        DB.setUsers(usersList);
+                        renderAdmin();
+                    }
+                });
+            });
+
+            const eventBody = document.getElementById('adminEventsBody');
+            eventBody.innerHTML = events.map(e => `
+                <tr>
+                    <td>${e.title}</td>
+                    <td>${e.date}</td>
+                    <td>${e.location}</td>
+                    <td>${e.going ? e.going.length : 0}</td>
+                    <td><button class="small danger" data-eventid="${e.id}">Delete</button></td>
+                </tr>
+            `).join('');
+            eventBody.querySelectorAll('[data-eventid]').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = this.dataset.eventid;
+                    if (confirm('Delete this event?')) {
+                        let eventsList = DB.getEvents().filter(e => e.id !== id);
+                        DB.setEvents(eventsList);
+                        renderAdmin();
+                    }
+                });
+            });
+
+            const commBody = document.getElementById('adminCommunitiesBody');
+            commBody.innerHTML = communities.map(c => `
+                <tr>
+                    <td>${c.name}</td>
+                    <td>${c.members ? c.members.length : 0}</td>
+                    <td><button class="small danger" data-commid="${c.id}">Delete</button></td>
+                </tr>
+            `).join('');
+            commBody.querySelectorAll('[data-commid]').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = this.dataset.commid;
+                    if (confirm('Delete this community?')) {
+                        let comms = DB.getCommunities().filter(c => c.id !== id);
+                        DB.setCommunities(comms);
+                        renderAdmin();
+                    }
+                });
+            });
+
+            const reportBody = document.getElementById('adminReportsBody');
+            reportBody.innerHTML = reports.map(r => `
+                <tr>
+                    <td>${r.reported}</td>
+                    <td>${r.reporter}</td>
+                    <td>${r.reason}</td>
+                    <td>${new Date(r.timestamp).toLocaleDateString()}</td>
+                    <td><button class="small danger" data-reportidx="${reports.indexOf(r)}">Resolve</button></td>
+                </tr>
+            `).join('');
+            reportBody.querySelectorAll('[data-reportidx]').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const idx = parseInt(this.dataset.reportidx);
+                    let reports = DB.getReports();
+                    reports.splice(idx, 1);
+                    DB.setReports(reports);
+                    renderAdmin();
+                });
+            });
+        }
+
+        // ============================================================
+        //  MODAL SYSTEM
+        // ============================================================
+        function openModal(title, bodyHTML, confirmText, onConfirm) {
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalBody').innerHTML = bodyHTML;
+            document.getElementById('modalConfirm').textContent = confirmText || 'Confirm';
+            document.getElementById('modalOverlay').classList.add('active');
+            document.getElementById('modalConfirm').onclick = function() {
+                if (onConfirm) onConfirm();
+                closeModal();
+            };
+            document.getElementById('modalCancel').onclick = closeModal;
+        }
+
+        function closeModal() {
+            document.getElementById('modalOverlay').classList.remove('active');
+        }
+
+        // ============================================================
+        //  EVENT LISTENERS
+        // ============================================================
+        // Auth toggle
+        document.getElementById('toggleAuthLink').addEventListener('click', function() {
+            const login = document.getElementById('loginForm');
+            const register = document.getElementById('registerForm');
+            const subtitle = document.getElementById('authSubtitle');
+            const toggleText = document.getElementById('toggleAuthText');
+            if (login.style.display !== 'none') {
+                login.style.display = 'none';
+                register.style.display = 'block';
+                subtitle.textContent = 'Create your account and start connecting.';
+                toggleText.textContent = 'Already have an account?';
+                this.textContent = 'Sign In';
+            } else {
+                login.style.display = 'block';
+                register.style.display = 'none';
+                subtitle.textContent = 'Sign in to connect with people who share your passions.';
+                toggleText.textContent = "Don't have an account?";
+                this.textContent = 'Sign Up';
+            }
+        });
+
+        // Login
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+            const user = DB.findUser(username);
+            if (!user) {
+                document.getElementById('authError').textContent = 'User not found.';
+                document.getElementById('authError').style.display = 'block';
+                return;
+            }
+            if (user.password !== password) {
+                document.getElementById('authError').textContent = 'Incorrect password.';
+                document.getElementById('authError').style.display = 'block';
+                return;
+            }
+            document.getElementById('authError').style.display = 'none';
+            // Update lastActive
+            user.lastActive = Date.now();
+            DB.saveUser(user);
+            saveCurrentUser(user);
+            enterApp();
+        });
+
+        // Register
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('regUsername').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
+            const password = document.getElementById('regPassword').value.trim();
+            const hobbies = document.getElementById('regHobbies').value.split(',').map(s => s.trim()).filter(s => s);
+            if (DB.findUser(username)) {
+                document.getElementById('authError').textContent = 'Username already taken.';
+                document.getElementById('authError').style.display = 'block';
+                return;
+            }
+            if (username === 'admin') {
+                document.getElementById('authError').textContent = 'Admin username reserved.';
+                document.getElementById('authError').style.display = 'block';
+                return;
+            }
+            const newUser = {
+                username,
+                email,
+                password,
+                hobbies,
+                bio: '',
+                location: '',
+                profilePhoto: null,
+                photos: [],
+                verified: false,
+                matches: [],
+                blocked: [],
+                notifications: [],
+                lastActive: Date.now(),
+                joined: new Date().toLocaleDateString()
+            };
+            DB.saveUser(newUser);
+            saveCurrentUser(newUser);
+            DB.addActivity({
+                user: username,
+                action: 'joined',
+                target: ''
+            });
+            enterApp();
+        });
+
+        // Join Now button
+        document.getElementById('joinNowBtn').addEventListener('click', function() {
+            const login = document.getElementById('loginForm');
+            const register = document.getElementById('registerForm');
+            if (login.style.display !== 'none') {
+                document.getElementById('toggleAuthLink').click();
+            }
+            document.getElementById('regUsername').focus();
+        });
+
+        // Enter app
+        function enterApp() {
+            document.getElementById('authPage').style.display = 'none';
+            document.getElementById('app').style.display = 'block';
+            document.getElementById('mainNav').style.display = 'block';
+            if (isAdmin) {
+                document.getElementById('adminNavLink').style.display = 'inline-block';
+            } else {
+                document.getElementById('adminNavLink').style.display = 'none';
+            }
+            document.getElementById('navUsername').textContent = currentUser.username;
+            // Apply theme
+            const theme = localStorage.getItem('hoppyTheme') || 'dark';
+            if (theme === 'light') {
+                document.body.classList.add('light-theme');
+                document.getElementById('themeToggle').textContent = '☀️';
+            }
+            showPage('dashboard');
+        }
+
+        // Logout
+        document.getElementById('logoutBtn').addEventListener('click', logout);
+
+        // Navigation links
+        document.querySelectorAll('#navLinks a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const page = this.dataset.page;
+                if (page === 'admin' && !isAdmin) return;
+                showPage(page);
+            });
+        });
+
+        // Footer links
+        document.querySelectorAll('.footer a[data-page]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const page = this.dataset.page;
+                if (page === 'admin' && !isAdmin) return;
+                showPage(page);
+            });
+        });
+
+        // Add hobby (dashboard)
+        document.getElementById('addHobbyBtn').addEventListener('click', function() {
+            openModal('Add Hobby',
+                `<input type="text" id="newHobbyInput" placeholder="Enter hobby name" />`,
+                'Add', function() {
+                    const hobby = document.getElementById('newHobbyInput').value.trim();
+                    if (hobby) {
+                        if (!currentUser.hobbies) currentUser.hobbies = [];
+                        currentUser.hobbies.push(hobby);
+                        DB.saveUser(currentUser);
+                        DB.setCurrentUser(currentUser);
+                        renderDashboard();
+                    }
+                });
+        });
+
+        // Add hobby (profile)
+        document.getElementById('profileAddHobbyBtn').addEventListener('click', function() {
+            openModal('Add Hobby',
+                `<input type="text" id="newHobbyInputProfile" placeholder="Enter hobby name" />`,
+                'Add', function() {
+                    const hobby = document.getElementById('newHobbyInputProfile').value.trim();
+                    if (hobby) {
+                        if (!currentUser.hobbies) currentUser.hobbies = [];
+                        currentUser.hobbies.push(hobby);
+                        DB.saveUser(currentUser);
+                        DB.setCurrentUser(currentUser);
+                        renderProfile();
+                    }
+                });
+        });
+
+        // Edit profile
+        document.getElementById('editProfileBtn').addEventListener('click', function() {
+            const photoHtml = currentUser.profilePhoto ?
+                `<img src="${currentUser.profilePhoto}" class="photo-preview" />` :
+                'No profile photo';
+            openModal('Edit Profile', `
+                <div class="form-group"><label>Profile Photo</label>
+                    <div class="file-input-wrapper">
+                        <input type="file" id="editProfilePhoto" accept="image/*" />
+                        <span id="profilePhotoPreview">${photoHtml}</span>
+                    </div>
+                </div>
+                <div class="form-group"><label>Bio</label><textarea id="editBio" rows="3">${currentUser.bio || ''}</textarea></div>
+                <div class="form-group"><label>Location</label><input type="text" id="editLocation" value="${currentUser.location || ''}" /></div>
+                <div class="form-group"><label>Verified</label><input type="checkbox" id="editVerified" ${currentUser.verified ? 'checked' : ''} /></div>
+                <div class="form-group"><label>Add Photos (max 6)</label>
+                    <input type="file" id="editPhotos" accept="image/*" multiple />
+                    <div id="editPhotoGallery" class="photo-gallery" style="margin-top:8px;">
+                        ${(currentUser.photos || []).map((p, idx) => `
+                            <div class="photo-item"><img src="${p}" /><button class="remove-photo" data-idx="${idx}">✕</button></div>
+                        `).join('')}
+                    </div>
+                </div>
+            `, 'Save', function() {
+                const fileInput = document.getElementById('editProfilePhoto');
+                if (fileInput.files.length > 0) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        currentUser.profilePhoto = e.target.result;
+                        saveProfileFields();
+                    };
+                    reader.readAsDataURL(fileInput.files[0]);
+                } else {
+                    saveProfileFields();
+                }
+            });
+
+            function saveProfileFields() {
+                const bio = document.getElementById('editBio').value.trim();
+                const location = document.getElementById('editLocation').value.trim();
+                const verified = document.getElementById('editVerified').checked;
+                currentUser.bio = bio;
+                currentUser.location = location;
+                currentUser.verified = verified;
+
+                const photoInput = document.getElementById('editPhotos');
+                if (photoInput.files.length > 0) {
+                    const files = Array.from(photoInput.files);
+                    const total = (currentUser.photos || []).length + files.length;
+                    if (total > 6) {
+                        alert(`You can have at most 6 photos. You have ${(currentUser.photos || []).length} already.`);
+                        return;
+                    }
+                    let loaded = 0;
+                    files.forEach(file => {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            if (!currentUser.photos) currentUser.photos = [];
+                            currentUser.photos.push(e.target.result);
+                            loaded++;
+                            if (loaded === files.length) {
+                                DB.saveUser(currentUser);
+                                DB.setCurrentUser(currentUser);
+                                renderProfile();
+                                renderDashboard();
+                                closeModal();
+                            }
+                        };
+                        reader.readAsDataURL(file);
+                    });
+                } else {
+                    DB.saveUser(currentUser);
+                    DB.setCurrentUser(currentUser);
+                    renderProfile();
+                    renderDashboard();
+                    closeModal();
+                }
+            }
+        });
+
+        // Share profile
+        document.getElementById('shareProfileBtn').addEventListener('click', function() {
+            const url = window.location.href.split('?')[0] + '?user=' + currentUser.username;
+            navigator.clipboard.writeText(url).then(() => {
+                alert('Profile link copied to clipboard! Share it with others.');
+            }).catch(() => {
+                prompt('Copy this link to share your profile:', url);
+            });
+        });
+
+        // Add Photo button
+        document.getElementById('addPhotoBtn').addEventListener('click', function() {
+            if ((currentUser.photos || []).length >= 6) {
+                alert('Maximum 6 photos allowed.');
+                return;
+            }
+            openModal('Add Photo',
+                `<input type="file" id="newPhotoInput" accept="image/*" />`,
+                'Upload', function() {
+                    const fileInput = document.getElementById('newPhotoInput');
+                    if (fileInput.files.length === 0) { alert('Please select a photo.'); return; }
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        if (!currentUser.photos) currentUser.photos = [];
+                        if (currentUser.photos.length >= 6) {
+                            alert('Maximum 6 photos.');
+                            return;
+                        }
+                        currentUser.photos.push(e.target.result);
+                        DB.saveUser(currentUser);
+                        DB.setCurrentUser(currentUser);
+                        renderProfile();
+                    };
+                    reader.readAsDataURL(fileInput.files[0]);
+                });
+        });
+
+        // Find match (dashboard)
+        document.getElementById('findMatchBtn').addEventListener('click', function() {
+            const blocked = currentUser.blocked || [];
+            const users = DB.getUsers().filter(u => u.username !== currentUser.username && !blocked.includes(u.username));
+            if (users.length === 0) {
+                document.getElementById('matchResult').textContent = 'No other users available.';
+                return;
+            }
+            const myHobbies = new Set(getHobbyList(currentUser.hobbies).map(h => h.toLowerCase()));
+            let best = null;
+            let maxScore = 0;
+            users.forEach(u => {
+                const uh = new Set(getHobbyList(u.hobbies).map(h => h.toLowerCase()));
+                let common = 0;
+                myHobbies.forEach(h => { if (uh.has(h)) common++; });
+                if (common > maxScore) {
+                    maxScore = common;
+                    best = u;
+                }
+            });
+            if (best && maxScore > 0) {
+                document.getElementById('matchResult').innerHTML =
+                    `Your best match is <strong>${best.username}</strong> with ${maxScore} shared hobbies! <br> <button class="small" data-username="${best.username}" id="matchConnectBtn">Connect</button>`;
+                document.getElementById('matchConnectBtn').addEventListener('click', function() {
+                    const target = this.dataset.username;
+                    if (!currentUser.matches) currentUser.matches = [];
+                    if (!currentUser.matches.includes(target)) {
+                        currentUser.matches.push(target);
+                        DB.saveUser(currentUser);
+                        DB.setCurrentUser(currentUser);
+                        DB.addNotification(target, {
+                            id: generateId(),
+                            message: `${currentUser.username} connected with you!`
+                        });
+                        DB.addActivity({
+                            user: currentUser.username,
+                            action: 'connected',
+                            target: target
+                        });
+                        alert(`You connected with ${target}!`);
+                        renderDashboard();
+                    } else {
+                        alert('Already connected.');
+                    }
+                });
+            } else {
+                document.getElementById('matchResult').textContent = 'No matches found. Try adding more hobbies!';
+            }
+        });
+
+        // Find match (profile)
+        document.getElementById('profileFindMatchBtn').addEventListener('click', function() {
+            document.getElementById('findMatchBtn').click();
+        });
+
+        // New message
+        document.getElementById('newMessageBtn').addEventListener('click', function() {
+            const blocked = currentUser.blocked || [];
+            const users = DB.getUsers().filter(u => u.username !== currentUser.username && !blocked.includes(u.username));
+            if (users.length === 0) {
+                alert('No other users to message.');
+                return;
+            }
+            let options = users.map(u => `<option value="${u.username}">${u.username}</option>`).join('');
+            openModal('New Message', `
+                <div class="form-group"><label>To</label><select id="msgTo">${options}</select></div>
+                <div class="form-group"><label>Message</label><textarea id="msgContent" rows="3"></textarea></div>
+            `, 'Send', function() {
+                const to = document.getElementById('msgTo').value;
+                const content = document.getElementById('msgContent').value.trim();
+                if (!content) { alert('Please enter a message.'); return; }
+                const msg = {
+                    id: generateId(),
+                    from: currentUser.username,
+                    to,
+                    content,
+                    timestamp: Date.now()
+                };
+                let msgs = DB.getMessages();
+                msgs.push(msg);
+                DB.setMessages(msgs);
+                DB.addNotification(to, {
+                    id: generateId(),
+                    message: `New message from ${currentUser.username}: ${content.substring(0, 30)}...`
+                });
+                DB.addActivity({
+                    user: currentUser.username,
+                    action: 'sent message',
+                    target: to
+                });
+                renderMessages();
+                alert('Message sent!');
+            });
+        });
+
+        // Create event
+        document.getElementById('createEventBtn').addEventListener('click', function() {
+            openModal('Create Event', `
+                <div class="form-group"><label>Title</label><input type="text" id="eventTitle" /></div>
+                <div class="form-group"><label>Date</label><input type="datetime-local" id="eventDate" /></div>
+                <div class="form-group"><label>Location</label><input type="text" id="eventLocation" /></div>
+            `, 'Create', function() {
+                const title = document.getElementById('eventTitle').value.trim();
+                const date = document.getElementById('eventDate').value;
+                const location = document.getElementById('eventLocation').value.trim();
+                if (!title || !date || !location) { alert('Please fill all fields.'); return; }
+                const ev = {
+                    id: generateId(),
+                    title,
+                    date: new Date(date).toLocaleString(),
+                    location,
+                    going: [currentUser.username]
+                };
+                let events = DB.getEvents();
+                events.push(ev);
+                DB.setEvents(events);
+                DB.addActivity({
+                    user: currentUser.username,
+                    action: 'created event',
+                    target: title
+                });
+                renderEvents();
+                alert('Event created!');
+            });
+        });
+
+        // Create community
+        document.getElementById('createCommunityBtn').addEventListener('click', function() {
+            openModal('Create Community', `
+                <div class="form-group"><label>Community Name</label><input type="text" id="commName" /></div>
+            `, 'Create', function() {
+                const name = document.getElementById('commName').value.trim();
+                if (!name) { alert('Please enter a name.'); return; }
+                const comm = {
+                    id: generateId(),
+                    name,
+                    members: [currentUser.username]
+                };
+                let comms = DB.getCommunities();
+                comms.push(comm);
+                DB.setCommunities(comms);
+                DB.addActivity({
+                    user: currentUser.username,
+                    action: 'created community',
+                    target: name
+                });
+                renderCommunities();
+                alert('Community created!');
+            });
+        });
+
+        // Search
+        document.getElementById('searchBtn').addEventListener('click', function() {
+            const term = document.getElementById('searchInput').value.trim();
+            renderDiscover(term);
+        });
+        document.getElementById('searchInput').addEventListener('keyup', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('searchBtn').click();
+            }
+        });
+
+        // Notifications toggle
+        document.getElementById('notifBtn').addEventListener('click', function(e) {
+            e.stopPropagation();
+            const dropdown = document.getElementById('notifDropdown');
+            dropdown.classList.toggle('active');
+            if (dropdown.classList.contains('active')) {
+                renderNotifications();
+            }
+        });
+        document.addEventListener('click', function() {
+            document.getElementById('notifDropdown').classList.remove('active');
+        });
+
+        // Theme toggle
+        document.getElementById('themeToggle').addEventListener('click', function() {
+            const isLight = document.body.classList.toggle('light-theme');
+            localStorage.setItem('hoppyTheme', isLight ? 'light' : 'dark');
+            this.textContent = isLight ? '☀️' : '🌙';
+        });
+
+        // ============================================================
+        //  INIT
+        // ============================================================
+        (function init() {
+            // Ensure admin exists
+            if (!DB.findUser('admin')) {
+                const admin = {
+                    username: 'admin',
+                    password: 'admin',
+                    email: 'admin@hoppy.com',
+                    hobbies: ['Admin'],
+                    bio: 'Admin of Hoppy Lovers',
+                    location: 'Worldwide',
+                    profilePhoto: null,
+                    photos: [],
+                    verified: true,
+                    matches: [],
+                    blocked: [],
+                    notifications: [],
+                    lastActive: Date.now(),
+                    joined: new Date().toLocaleDateString()
+                };
+                DB.saveUser(admin);
+            }
+            if (loadCurrentUser()) {
+                enterApp();
+            } else {
+                document.getElementById('authPage').style.display = 'flex';
+                document.getElementById('app').style.display = 'none';
+                document.getElementById('mainNav').style.display = 'none';
+                document.getElementById('mainFooter').style.display = 'none';
+            }
+        })();
+
+        console.log('Hoppy Lovers v2.0 - Features: Search, Notifications, Activity Feed, Block, Report, Theme, Share');
+        console.log('Admin login: admin / admin');
+    </script>
+</body>
+</html>
